@@ -1,25 +1,11 @@
-
-    <!DOCTYPE html>
-<html lang="ko">
+<!DOCTYPE html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>사진 관리</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>회원관리 페이지</title>
     <style>
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-        table, th, td {
-            border: 1px solid black;
-        }
-        th, td {
-            padding: 8px;
-            text-align: left;
-        }
-        .form-group {
-            margin-bottom: 1em;
-        }
-        .btn {
+        .add-employee-button {
             background-color: rgb(218, 24, 24); /* 버튼 배경색 변경 */
             color: white; /* 버튼 텍스트 색상 변경 */
             border: none; /* 기본 테두리 제거 */
@@ -32,137 +18,122 @@
             cursor: pointer; /* 커서 포인터로 변경 */
             border-radius: 5px; /* 모서리 둥글게 */
         }
-        .btn1 {
-            background-color: rgba(158, 155, 155, 0.685);
-            height: 25px; /* 버튼 높이 조정 */
-            margin-bottom: 0px; /* 버튼과 테이블 간격 추가 */
+        .serach {
+            font-size: 14px;
         }
-        .flex-container {
-            display: flex;
-            align-items: center;
-            gap: 10px; /* 버튼과 검색 사이 간격 */
+        .memListTbl {
+            border: 1px solid black;
+            width: 80%;
+            border-collapse: collapse;
         }
-        .flex-form {
-            display: flex;
-            align-items: center;
-            gap: 10px; /* 입력 창과 버튼 사이 간격 */
+        .memListTbl th {
+            border: 1px solid black;
+            text-align: center;
+            background-color: orange; /* 첫 번째 행 배경색 주황색으로 설정 */
         }
-        .comment-table {
+        .memListTbl td {
+            border: 1px solid black;
+            text-align: center;
+        }
+        .img01 {
+            width: 20%;
+        }
+        .subTBL {
+            border: 0;
             width: 100%;
             border-collapse: collapse;
         }
-        .comment-table, .comment-table th, .comment-table td {
-            border: 1px solid black;
+        .comment-input {
+            width: 30%; /* 댓글 입력란의 너비를 조정 */
+        }
+        .author-input {
+            width: 10%; /* 작성자 입력란의 너비를 조정 */
         }
     </style>
 </head>
 <body>
-    <form>
-        <div class="form-group">
-            <label for="name">이름</label>
-            <input type="text" id="name" name="name" value="홍길동">
-        </div>
-        <div class="form-group">
-            <label for="department">부서</label>
-            <input type="text" id="department" name="department" value="개발">
-        </div>
-        <div class="form-group">
-            <label for="position">직책</label>
-            <input type="text" id="position" name="position" value="대리">
-        </div>
-        <div class="form-group">
-            <label for="file">사진</label>
-            <input type="file" id="file" name="file">
-        </div>
-        <button class="btn" type="button">새 사원 추가</button>
-        <hr>
-        <br>
-        <div class="flex-container">
-            <button class="btn1" type="button">선택삭제</button>
-            <h5>| 검색 :</h5>
-            <select id="search">
-                <option value="name">이름</option>
-            </select>
-            <input type="text" id="searchName" name="searchName" value="">
-        </div>
-        <br>
-    </form>
-    <table>
-        <thead>
-            <tr>
-                <th><input type="checkbox"></th>
-                <th rowspan="6">번호</th>
-                <th>사진</th>
-                <th>사원명</th>
-                <th>부서</th>
-                <th>직급</th>
-                <th rowspan="6" >수정</th>
-                <th rowspan="6">삭제</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td rowspan="6"></td>
-                <td rowspan="6">1043</td>
-                <td><img src="file:///C:/Users/user/Pictures/1.jpg" alt="사진" width="100"></td>
-                <td>홍길동</td>
-                <td>개발</td>
-                <td>대리</td>
-                <td rowspan="6"><button type="button">수정</button></td>
-                <td rowspan="6"><button type="button">삭제</button></td>
-            </tr>
-            <tr>
-                <td colspan="4">
-                    <table class="comment-table">
-                        <thead>
-                            <tr>
-                                <th>번호</th>
-                                <th>댓글 내용</th>
-                                <th>작성자</th>
-                                <th>수정</th>
-                                <th>삭제</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>1</td>
-                                <td>멋진 사진입니다</td>
-                                <td>박준수</td>
-                                <td><button type="button">수정</button></td>
-                                <td><button type="button">삭제</button></td>
-                            </tr>
-                            <tr>
-                                <td>2</td>
-                                <td>좋아요^^ 파이팅~</td>
-                                <td>임지혜</td>
-                                <td><button type="button">수정</button></td>
-                                <td><button type="button">삭제</button></td>
-                            </tr>
-                            <tr>
-                                <td colspan="5">
-                                    <div class="flex-form">
-                                        <div class="form-group">
-                                            <label for="comment">댓글</label>
-                                            <input type="text" id="comment" name="comment">
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="commenter">작성자</label>
-                                            <input type="text" id="commenter" name="commenter">
-                                        </div>
-                                        <button type="button" >댓글입력</button>
-                                    </div>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </td>
-            </tr>
-        </tbody>
+    <label for="fname">이름</label>
+    <input type="text" id="uname" name="uname" placeholder="홍길동">
+    <br>
+
+    <label for="fdepartment">부서</label>
+    <input type="text" id="udepartment" name="udepartment" placeholder="개발">
+    <br>
+
+    <label for="fposition">직책</label>
+    <input type="text" id="uposition" name="uposition" placeholder="대리">
+    <br>
+
+    <label for="fphoto">사진</label>
+    <input type="file" id="uphoto" name="uphoto" accept="image/*">
+    <span class="file-name" id="file-name"></span>
+    <br><br>
+
+    <button class="add-employee-button">새 사원 추가</button>
+    <hr>
+
+    <button class="select-deleate">선택삭제</button>
+    <label for="search" class="serach">| 검색:</label> 
+    <select id="search">
+        <option value="name">이름</option>
+    </select>
+    <input type="text" id="uname2" name="uname2">
+    <br>
+    <table class="memListTbl">
+        <tr>
+            <th><input type="checkbox"></th>
+            <th>번호</th>
+            <th>사진</th>
+            <th>사원명</th>
+            <th>부서</th>
+            <th>직급</th>
+            <th>수정</th>
+            <th>삭제</th>
+        </tr>
+        <tr>
+            <td rowspan="2"><input type="checkbox" name="id"></td>
+            <td rowspan="2">1043</td>
+            <td><img src="img01.png" alt="사원1의 사진" class="img01"></td>
+            <td>홍길동</td>
+            <td>개발</td>
+            <td>대리</td>
+            <td rowspan="2"><button>Edit</button></td>
+            <td rowspan="2"><button>Deleate</button></td>
+        </tr>
+        <tr>
+            <td colspan="4">
+                <table class="subTBL">
+                    <tr>
+                        <td>번호</td>
+                        <td>댓글내용</td>
+                        <td>작성자</td>
+                        <td>수정</td>
+                        <td>삭제</td>
+                    </tr>
+                    <tr>
+                        <td>1</td>
+                        <td class="comment-input">멋진 사진입니다</td>
+                        <td class="author-input">박문수</td>
+                        <td>수정</td>
+                        <td>삭제</td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td class="comment-input">좋아요 ^^ 퍼가요 ~</td>
+                        <td class="author-input">일지매</td>
+                        <td>수정</td>
+                        <td>삭제</td>
+                    </tr>
+                    <tr>
+                        <td colspan="5">
+                            댓글 <input type="text" class="comment-input"> 
+                            작성자 <input type="text" class="author-input">
+                            <button>댓글입력</button>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
     </table>
-</body>
-</html>
-
-
- 
 </body>
 </html>
