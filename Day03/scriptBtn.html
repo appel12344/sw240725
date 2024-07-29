@@ -1,4 +1,4 @@
-\<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
@@ -34,15 +34,20 @@
             
             // id 값으로 태그 엘리먼트를 참조
             let demo = document.getElementById("demo");
-            let changeBtn = document.getElementById("clickBtn");
+            let clickBtn = document.getElementById("clickBtn");
             let resetBtn = document.getElementById("resetBtn");
             let form = document.getElementById("form");
             let memotxt = document.getElementById("memotxt");
 
-            // changeBtn 클릭 시 demo 내용 변경 및 배경색 변경
-            changeBtn.addEventListener("click", () => {
+            // clickBtn 클릭 시 demo 내용 변경 및 배경색 변경
+            clickBtn.addEventListener("click", () => {
                 demo.innerHTML = "<h1>버튼이 클릭되었다!</h1>";
                 document.body.style.backgroundColor = "green";
+                // 메모텍스트에 있는 데이터 가져오기 및 초기화
+                var memotxtval = memotxt.value;
+                demo.innerHTML = memotxtval;
+                memotxt.value = ""; // 입력 필드 초기화
+                memotxt.focus(); // 입력 필드에 포커스 유지
             });
 
             // resetBtn 클릭 시 demo 내용 초기화 및 배경색 원래대로
@@ -59,6 +64,22 @@
                 demo.innerText = memotxt.value;
                 // 배경색 변경
                 document.body.style.backgroundColor = "";
+                // 입력 필드 초기화
+                memotxt.value = "";
+                memotxt.focus(); // 입력 필드에 포커스 유지
+            });
+
+            // memotxt에서 'Enter' 키를 눌렀을 때 이벤트 핸들러 추가
+            memotxt.addEventListener('keydown', function(event) {
+                if (event.key === 'Enter') {
+                    event.preventDefault(); // 기본 동작 방지 (폼 제출 방지)
+                    console.log('버튼클릭함');
+                    console.dir(memotxt.value);
+                    var memotxtval = memotxt.value;
+                    demo.innerHTML = memotxtval;
+                    memotxt.value = ""; // 입력 필드 초기화
+                    memotxt.focus(); // 입력 필드에 포커스 유지
+                }
             });
 
             // 추가 개념: preventDefault()
