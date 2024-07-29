@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<!-- 자바스크립트는 인터프리터 언어..? 자바,c언어는 컴파일... -->
+ <!-- 컴파일은 번역. 인터프리터는 통역...?  -->
+ <!-- 자바스크립트가 <body> 끝에 있어야 하는 이유는 JavaScript가 페이지의 내용이 모두 로드된 후에 실행되도록 하기 위해서입니다. 이렇게 하면 JavaScript가 페이지의 요소들을 제대로 찾고 수정할 수 있다. -->
+
+   
+<body>
+    
+    <p id="demo">JavaScript can change HTML content.</p>
+
+    <!-- 인라인 적용 방식 -->
+    <button type="button" onclick='
+            document.getElementById("demo").innerHTML = "Hello JavaScript!";
+            document.body.bgColor="green"'>Change</button>
+    <button type="button" onclick='
+            document.getElementById("demo").innerHTML = "JavaScript can change HTML content.";
+            document.body.bgColor=""'>Reset</button>
+
+    <!-- 인터널 적용 방식 -->
+     <button type="button" id="changeBtn">Change</button>
+     <button type="button" id="resetBtn">Reset</button>
+
+     <script>
+        // id값으로 태그 엘리먼트를 객체로 참조 ...? 무슨말이지
+        var demo = document.getElementById('demo');
+        console.log(demo);
+     </script>
+     <!-- window.addEventListener/window.onload 차이점 -->
+<script>
+    var num=(100);
+    console.log(num.valueOf());
+    console.dir(window.document.body);
+    var demo= document.getElementById('demo');
+    console.log(demo);
+</script>
+</body>                                   
+</html>

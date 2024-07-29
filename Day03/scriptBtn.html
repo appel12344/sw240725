@@ -1,0 +1,72 @@
+\<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>버튼 클릭 및 폼 제출 예제</title>
+    <style>
+        #demo {
+            font-size: 20px;
+            margin-bottom: 20px;
+        }
+        button {
+            font-size: 16px;
+            padding: 10px;
+            margin: 5px;
+        }
+        form {
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <form id="form">
+        메모: <input type="text" id="memotxt">
+        <button type="submit">Submit</button>
+    </form>
+    <p id="demo">JavaScript can change HTML content.</p>
+    <button type="button" id="clickBtn">Change Content</button>
+    <button type="button" id="resetBtn">Reset Content</button>
+    
+    <script>
+        window.onload = () => {
+            console.dir(window.document.body);
+            
+            // id 값으로 태그 엘리먼트를 참조
+            let demo = document.getElementById("demo");
+            let changeBtn = document.getElementById("clickBtn");
+            let resetBtn = document.getElementById("resetBtn");
+            let form = document.getElementById("form");
+            let memotxt = document.getElementById("memotxt");
+
+            // changeBtn 클릭 시 demo 내용 변경 및 배경색 변경
+            changeBtn.addEventListener("click", () => {
+                demo.innerHTML = "<h1>버튼이 클릭되었다!</h1>";
+                document.body.style.backgroundColor = "green";
+            });
+
+            // resetBtn 클릭 시 demo 내용 초기화 및 배경색 원래대로
+            resetBtn.addEventListener("click", () => {
+                demo.innerHTML = "JavaScript can change HTML content.";
+                document.body.style.backgroundColor = "";
+            });
+
+            // form 제출 시 이벤트 핸들러 추가
+            form.addEventListener("submit", (event) => {
+                // 기본 제출 동작 방지
+                event.preventDefault();
+                // demo 내용을 입력된 값으로 변경
+                demo.innerText = memotxt.value;
+                // 배경색 변경
+                document.body.style.backgroundColor = "";
+            });
+
+            // 추가 개념: preventDefault()
+            // form의 기본 제출 동작(페이지 새로고침)을 방지하기 위해 사용됩니다.
+            // event.preventDefault()는 이벤트의 기본 동작을 막아 줍니다.
+            // 이 경우, 폼이 제출될 때 페이지가 새로고침 되는 것을 막고
+            // 대신 JavaScript로 정의한 동작을 수행하게 합니다.
+        };
+    </script>
+</body>
+</html>
