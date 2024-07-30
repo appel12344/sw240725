@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        input[name=input3]{
+            width: 100px;
+            padding: 10px;
+
+            /* 효과를 줌 */
+            /* https://cubic-bezier.com/#.23,.98,.73,-0.5 사이트 통해서 효과 변경 가능 */
+            transition: width .8s cubic-bezier(.23,.98,.73,-0.5);
+        }
+
+        input[name=input3]:focus{
+            width: 90%;
+            background-color: aqua;
+            padding: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>HTML css설정</h1>
+
+    <form action="">
+        <fieldset>
+            <legend>기본정보</legend>
+            <input type="text" name="input3">
+        </fieldset>
+    </form>
+    
+</body>
+</html>

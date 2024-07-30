@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <h1>계산기 만들기</h1>
+
+    <form action="">
+        <fieldset>
+            <legend>계산기</legend>
+            <input type="text" size="2" value="0" class="hang1">
+
+            <select name="" id="oper">
+                <option value="+">+</option>
+                <option value="-">-</option>
+                <option value="*">x</option>
+                <option value="/">/</option>
+            </select>
+            <input type="text" size="2" value="0" class="hang2">
+            <button type="button" class="resultBtn">=</button>
+            <span class="resultArea">0</span>
+        </fieldset>
+    </form>
+
+    <script>
+        var hang1 = document.getElementsByClassName('hang1')[0];
+        var hang2 = document.querySelectorAll('.hang2')[0];
+        var resultBtn = document.querySelector('.resultBtn');
+        var resultArea = document.querySelector('.resultArea');
+        var oper = document.getElementById('oper');
+
+        resultBtn.addEventListener('click', function () {
+            var num1 = parseFloat(hang1.value);
+            var num2 = parseFloat(hang2.value);
+            var op = oper.value;
+            var result;
+
+            if (op === '+') {
+                result = num1 + num2;
+            } else if (op === '-') {
+                result = num1 - num2;
+            } else if (op === '*') {
+                result = num1 * num2;
+            } else if (op === '/') {
+                result = num1 / num2;
+            }
+
+            resultArea.textContent = isNaN(result) ? 0 : result;
+        });
+    </script>
+
+</body>
+
+</html>
