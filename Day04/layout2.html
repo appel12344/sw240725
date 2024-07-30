@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        div {
+            border: 1px solid navy;
+            padding: 5px;
+            border-radius: 8px;
+        }
+        div.header {
+            overflow: hidden;
+        }
+        ul {
+            margin: auto;
+            border: 0px solid red;
+            padding: 0;
+            /* height 속성을 주지 않고 overflow 설정 */
+            /* height: 40px; */
+            overflow: hidden;
+            width: 600px;
+        }
+        .nav ul li {
+            width: 120px;
+            height: 50px;
+            border: 0px solid black;
+            text-align: center;
+            list-style: none;
+            float: left;
+            box-sizing: border-box;
+            line-height: 50px;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+        hr {
+           
+            height:1px;
+            border-color: rgb(78, 8, 55);
+            border: 10;
+            
+        }
+        
+
+       
+        div.middle {
+            overflow: hidden;
+        }
+        div.footer {
+            height: 100px;
+        }
+        div.container {
+            width: 1000px;
+            margin: auto;
+        }
+        div.header h1 {
+            text-align: center;
+        }
+        div.header div {
+            height: 50px;
+        }
+
+        div.middle > div:nth-child(1) {
+            width: 180px;
+        }
+        div.middle > div:nth-child(2) {
+            width: 590px;
+        }
+        div.middle > div:nth-child(3) {
+            width: 180px;
+        }
+        div.middle > div {
+            float: left;
+            height: 300px;
+        }
+        .nav ul li:hover {
+            border-bottom: 2px solid red;
+            font-weight: bold;
+            color: red;
+        }
+      
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>림현효의 SW개발 교실</h1>
+            <DIV></DIV>
+        </div>
+
+        <div class="nav">
+            
+                <ul>
+                    <li>Home</li>
+                    <li>Profile</li>
+                    <li>Gallery</li>
+                    <li>Lecture</li>
+                    <li>Shop</li>
+                    <hr>
+                </ul>
+        </div>
+
+        <div class="middle">
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+        <div class="footer">
+
+        </div>
+    </div> 
+</body>
+</html>

@@ -68,6 +68,15 @@
                 }
             });
 
+            // 수정버튼 클릭시 
+            demo.addEventListener('click',function(event){
+                if(event.target.classList.contains('editBtn')){
+                    
+                }
+            });
+
+
+
             // 검색 입력 필드에서 키가 눌릴 때의 이벤트 핸들러 추가
             searchTxt.onkeyup = function() {
                 var searchValue = searchTxt.value.toLowerCase().trim();
@@ -97,6 +106,12 @@
     <!-- 검색 기능 -->
     검색: <input type="text" id="searchTxt">
     <button type="button" id="button" style="display: none;">검색</button> <!-- 검색 버튼은 숨김 -->
+
+    <hr>
+
+    <!--수정 기능-->
+    수정: <input type="text" id="editTxt">
+    <button type="button" id="button">수정완료</button>
 
     <hr> <!-- 수평선 -->
     <!-- 텍스트를 표시하는 <table> 요소 -->
