@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Todo List</title>
+    <style>
+        /* 수정 입력 상자 숨김 */
+        td.modifyBox {
+            display: none;
+        }
+        
+        #clickBtn {
+            width: 100px; /* 버튼의 너비를 100px로 설정 */
+            height: 30px; /* 버튼의 높이를 30px로 설정 */
+            background-color: red; /* 버튼 배경색을 빨간색으로 설정 */
+            border: 0; /* 버튼의 기본 테두리를 제거 */
+            border-radius: 6px; /* 버튼 모서리를 둥글게 설정 */
+            box-shadow: 1px 1px 2px; /* 버튼에 그림자 효과 추가 */
+            color: white; /* 버튼 글자색을 흰색으로 설정 */
+            font-size: 16px; /* 버튼 글자 크기를 16px로 설정 */
+            cursor: pointer; /* 버튼 클릭 시 커서 모양 변경 */
+        }
+    </style>
+    <script>
+        // 초기 할 일 목록 데이터
+        var todoList = [];
+        var seqCnt = 106; // 새로운 할 일의 고유 시퀀스 번호
+
+        window.onload = function() {
+            var nameTxt = document.getElementById('nameTxt');
+            var tierTxt = document.getElementById('tierTxt');
+            var partTxt = document.getElementById('partTxt');
+            var demo = document.querySelector('#demo');
+            var clickBtn = document.querySelector('#clickBtn');
+            var searchTxt = document.getElementById('searchTxt');
+
+            // 삭제 버튼 이벤트 핸들러
+            HTMLButtonElement.prototype.handleDelEvt = function(btn) {
+                var trElement = btn.parentElement.parentElement; // 버튼의 부모 요소의 부모 요소(tr)
+                var targetSeq = trElement.dataset.seq; // tr의 data-seq 값
+
+                // 할 일 목록에서 해당 시퀀스를 가진 항목을 찾기
+                var idx = todoList.findIndex(function(todo) {
+                    return targetSeq == todo.seq;
+                });
+
+                // 찾은 항목이 있으면 목록에서 제거하고 리스트 다시 그리기
+                if(idx != -1) {
+                    todoList.splice(idx, 1);
+                    drawList();
+                }
+            }
+
+            // 수정 버튼 이벤트 핸들러
+            HTMLButtonElement.prototype.editClickHandle = function(btn) {
+                var trElement = btn.parentElement.parentElement; // 버튼의 부모 요소의 부모 요소(tr)
+                var targetSeq = trElement.dataset.seq; // tr의 data-seq 값
+                var idx = todoList.findIndex(function(todo) {
+                    return targetSeq == todo.seq;
+                });
+
+                if(idx != -1) {
+                    var modifyBox = trElement.querySelector(".modifyBox");
+                    var titleBox = trElement.querySelector(".titleBox");
+                    var tierbox = trElement.querySelector(".tierbox"); //직급설정 박스
+                    var partbox = trElement.querySelector(".partbox");  //부서 설정 박스 
+
+                    modifyBox.style.display = "block"; // 수정 입력 상자 보이기
+                    titleBox.style.display = "none"; // 제목 상자 숨기기
+                    tierbox.style.display = "none"; 
+                    partbox.style.display = "none"; 
+
+                    var modifyTxt = trElement.querySelector(".modifyTxt");
+                    var modifyTier = trElement.querySelector(".modifyTier");
+                    var modifyPart = trElement.querySelector(".modifyPart");
+
+                    modifyTxt.value = todoList[idx].title; // 현재 제목을 수정 입력 상자에 설정
+                    modifyTier.value = todoList[idx].tier;
+                    modifyPart.value = todoList[idx].part;
+
+                    trElement.querySelector(".modifyBtn").onclick = function(event) {
+                        modifyBox.style.display = "none"; // 수정 입력 상자 숨기기
+                        todoList[idx].title = modifyTxt.value;
+                        todoList[idx].tier = modifyTier.value;
+                        todoList[idx].part = modifyPart.value; // 제목 업데이트
+                        drawList(); // 리스트 다시 그리기
+                    };
+                }
+            }
+
+            // 체크박스 변경 이벤트 핸들러
+            window.aaaa = function(element) {
+                var trElement = element.parentElement.parentElement; // 체크박스의 부모 요소의 부모 요소(tr)
+                var targetSeq = trElement.dataset.seq; // tr의 data-seq 값
+                var idx = todoList.findIndex(function(todo) {
+                    return targetSeq == todo.seq;
+                });
+
+                if(idx != -1) {
+                    todoList[idx].done = !todoList[idx].done; // done 상태 토글
+                    drawList(); // 리스트 다시 그리기
+                }
+            }
+
+            // 할 일 목록 그리기
+            function drawList() {
+                demo.innerHTML = "";
+                todoList.forEach(function(todoObj) {
+                    demo.innerHTML += `<tr align="center" data-seq="${todoObj.seq}">
+                        <td><input type="checkbox" ${todoObj.done ? "checked" : ""} onchange="window.aaaa(this)"></td>
+                        <td class="titleBox" style="${todoObj.done ? "text-decoration:line-through" : ""}">${todoObj.title}</td>
+                        <td class="tierbox" style="${todoObj.done ? "text-decoration:line-through" : ""}">${todoObj.tier}</td>
+                        <td class="partbox" style="${todoObj.done ? "text-decoration:line-through" : ""}">${todoObj.part}</td>
+
+
+                        <td class="modifyBox">
+                            <input type="text" class="modifyTxt"> 
+                            <input type="text" class="modifyTier">
+                            <input type="text" class="modifyPart"> 
+                            <button class="modifyBtn">수정완료</button>
+                        </td>
+                        
+                        <td><button onclick="editClickHandle(this)">수정</button></td>
+                        <td><button onClick="handleDelEvt(this)">삭제</button></td>
+                    </tr>`;
+                });
+            }
+            drawList(); // 초기 할 일 목록 그리기
+
+            // 새로운 할 일 추가 이벤트 핸들러
+            var handleEvent = function(event) {
+                var nameValue = nameTxt.value.trim();
+                var tierValue = tierTxt.value.trim();
+                var partValue = partTxt.value.trim();
+                if (nameValue === "" || tierValue === "" || partValue === "") return; // 입력 값이 없으면 반환
+                todoList.push({seq: seqCnt++, title: nameValue, tier: tierValue, part: partValue, done: false}); // 새로운 할 일 추가
+                drawList(); // 리스트 다시 그리기
+                nameTxt.value = ""; // 입력 필드 초기화
+                tierTxt.value = ""; // 입력 필드 초기화
+                partTxt.value = ""; // 입력 필드 초기화
+                nameTxt.focus(); // 입력 필드 포커스
+            }
+
+            clickBtn.addEventListener('click', handleEvent); // Save 버튼 클릭 이벤트
+
+            nameTxt.onkeyup = function(event) {
+                if (event.keyCode === 13) { // Enter 키 이벤트
+                    handleEvent(event);
+                }
+            }
+            tierTxt.onkeyup = function(event) {
+                if (event.keyCode === 13) { // Enter 키 이벤트
+                    handleEvent(event);
+                }
+            }
+            partTxt.onkeyup = function(event) {
+                if (event.keyCode === 13) { // Enter 키 이벤트
+                    handleEvent(event);
+                }
+            }
+
+            // 검색 입력 필드 이벤트 핸들러
+            searchTxt.onkeyup = function() {
+                var searchValue = searchTxt.value.toLowerCase().trim();
+                var rows = demo.getElementsByTagName('tr');
+                for (var i = 0; i < rows.length; i++) {
+                    var cells = rows[i].getElementsByTagName('td');
+                    var todoText = cells[1].innerText.toLowerCase();
+                    if (todoText.indexOf(searchValue) > -1) {
+                        rows[i].style.display = '';
+                    } else {
+                        rows[i].style.display = 'none';
+                    }
+                }
+            }
+        }
+
+        // 할 일 목록을 로컬 스토리지에 저장
+        localStorage.setItem("TodoList", JSON.stringify(todoList));
+        // 로컬 스토리지에서 할 일 목록 불러오기
+        var loadTodoList = JSON.parse(localStorage.getItem("TodoList"));
+        console.log(loadTodoList); // 콘솔에 불러온 할 일 목록 출력
+    </script>
+</head>
+<body>
+    <h1>직원 관리 리스트</h1>
+    이름: <input type="text" id="nameTxt" value=""> 
+    <br>
+    직급: <input type="text" id="tierTxt" value=""> 
+    <br>
+    부서: <input type="text" id="partTxt" value=""> 
+    <br>
+    <br>
+    <button type="button" id="clickBtn">Save</button>
+   
+    <hr>
+    사원명 검색: <input type="text" id="searchTxt"> 
+    <button id="searchBtn" style="display: none;">검색</button>
+    <hr>
+    <table width="550" border="1">
+        <thead>
+            <tr>
+                <th>확인</th>
+                <th>사원명</th>
+                <th>직급</th>
+                <th>부서</th>
+                <th>수정</th>
+                <th>삭제</th>
+            </tr>
+        </thead>
+        <tbody id="demo"></tbody>
+    </table>
+</body>
+</html>

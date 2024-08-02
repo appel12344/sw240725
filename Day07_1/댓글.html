@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>회원관리 페이지</title>
+    <style>
+        .add-employee-button {
+            background-color: rgb(218, 24, 24); /* 버튼 배경색 변경 */
+            color: white; /* 버튼 텍스트 색상 변경 */
+            border: none; /* 기본 테두리 제거 */
+            padding: 10px 20px; /* 버튼 안쪽 여백 */
+            text-align: center; /* 텍스트 가운데 정렬 */
+            text-decoration: none; /* 기본 텍스트 장식 제거 */
+            display: inline-block; /* 인라인 블록 요소로 표시 */
+            font-size: 16px; /* 폰트 크기 */
+            margin-top: 10px; /* 위쪽 여백 */
+            cursor: pointer; /* 커서 포인터로 변경 */
+            border-radius: 5px; /* 모서리 둥글게 */
+        }
+        .serach {
+            font-size: 14px;
+        }
+        .memListTbl {
+            border: 1px solid black;
+            width: 80%;
+            border-collapse: collapse;
+        }
+        .memListTbl th {
+            border: 1px solid black;
+            text-align: center;
+            background-color: orange; /* 첫 번째 행 배경색 주황색으로 설정 */
+        }
+        .memListTbl td {
+            border: 1px solid black;
+            text-align: center;
+        }
+        .img01 {
+            width: 20%;
+        }
+        .subTBL {
+            border: 0;
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .comment-input {
+            width: 30%; /* 댓글 입력란의 너비를 조정 */
+        }
+        .author-input {
+            width: 10%; /* 작성자 입력란의 너비를 조정 */
+        }
+    </style>
+</head>
+<body>
+    <label for="uname">이름</label>
+    <input type="text" id="uname" name="uname" placeholder="홍길동">
+    <br>
+
+    <label for="udepartment">부서</label>
+    <input type="text" id="udepartment" name="udepartment" placeholder="개발">
+    <br>
+
+    <label for="uposition">직책</label>
+    <input type="text" id="uposition" name="uposition" placeholder="대리">
+    <br>
+
+    <label for="uphoto">사진</label>
+    <input type="file" id="uphoto" name="uphoto" accept="image/*">
+    <span class="file-name" id="file-name"></span>
+    <br><br>
+
+    <button class="add-employee-button" onclick="addEmployee()">새 사원 추가</button>
+    <hr>
+
+    <button class="select-deleate">선택삭제</button>
+    <label for="search" class="serach">| 검색:</label> 
+    <select id="search">
+        <option value="name">이름</option>
+    </select>
+    <input type="text" id="uname2" name="uname2">
+    <br>
+    <table class="memListTbl">
+        <thead>
+            <tr>
+                <th><input type="checkbox"></th>
+                <th>번호</th>
+                <th>사진</th>
+                <th>사원명</th>
+                <th>부서</th>
+                <th>직급</th>
+                <th>수정</th>
+                <th>삭제</th>
+            </tr>
+        </thead>
+        <tbody id="employeeList">
+        </tbody>
+    </table>
+
+    <script>
+        let employeeId = 1;
+
+        function addEmployee() {
+            const uname = document.getElementById('uname').value;
+            const udepartment = document.getElementById('udepartment').value;
+            const uposition = document.getElementById('uposition').value;
+            const uphoto = document.getElementById('uphoto').files[0];
+
+            if (!uname || !udepartment || !uposition || !uphoto) {
+                alert('모든 필드를 입력하고 사진을 업로드해주세요.');
+                return;
+            }
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                
+                const photoUrl = e.target.result;
+
+                const employeeList = document.getElementById('employeeList');
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td rowspan="2"><input type="checkbox" name="id"></td>
+                    <td rowspan="2">${employeeId}</td>
+                    <td><img src="${photoUrl}" alt="사원 사진" class="img01"></td>
+                    <td>${uname}</td>
+                    <td>${udepartment}</td>
+                    <td>${uposition}</td>
+                    <td rowspan="2"><button onclick="editEmployee(${employeeId})">수정</button></td>
+                    <td rowspan="2"><button onclick="deleteEmployee(${employeeId})">삭제</button></td>
+                `;
+
+                const commentRow = document.createElement('tr');
+                commentRow.innerHTML = `
+                    <td colspan="4">
+                        <table class="subTBL" id="comments-${employeeId}">
+                            <tr>
+                                <td>번호</td>
+                                <td>댓글내용</td>
+                                <td>작성자</td>
+                                <td>수정</td>
+                                <td>삭제</td>
+                            </tr>
+                            <tr>
+                                <td colspan="5">
+                                    댓글 <input type="text" class="comment-input" id="comment-${employeeId}"> 
+                                    작성자 <input type="text" class="author-input" id="author-${employeeId}">
+                                    <button onclick="addComment(${employeeId})">댓글입력</button>
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                `;
+
+                employeeList.appendChild(row);
+                employeeList.appendChild(commentRow);
+
+                employeeId++;
+
+                // 입력 필드 초기화
+                document.getElementById('uname').value = '';
+                document.getElementById('udepartment').value = '';
+                document.getElementById('uposition').value = '';
+                document.getElementById('uphoto').value = '';
+                document.getElementById('file-name').textContent = '';
+            }
+
+            reader.readAsDataURL(uphoto);
+        }
+
+        function editEmployee(id) {
+            // 수정 기능 구현 (필요시 추가)
+            alert(`수정 기능은 구현되지 않았습니다. 사원 ID: ${id}`);
+        }
+
+        function deleteEmployee(id) {
+            const employeeList = document.getElementById('employeeList');
+            const rows = employeeList.querySelectorAll(`tr`);
+            rows.forEach(row => {
+                if (row.innerHTML.includes(`>${id}<`)) {
+                    row.remove();
+                }
+            });
+        }
+
+        function addComment(employeeId) {
+            const commentInput = document.getElementById(`comment-${employeeId}`);
+            const authorInput = document.getElementById(`author-${employeeId}`);
+
+            const comment = commentInput.value;
+            const author = authorInput.value;
+
+            if (!comment || !author) {
+                alert('댓글과 작성자를 입력해주세요.');
+                return;
+            }
+
+            const commentsTable = document.getElementById(`comments-${employeeId}`);
+            const rowCount = commentsTable.rows.length;
+            const row = commentsTable.insertRow(rowCount - 1);
+
+            // 댓글써내려가는 부분 테이블 추가
+            row.innerHTML = `
+                <td>${rowCount - 1}</td>
+                <td class="comment-input">${comment}</td>
+                <td class="author-input">${author}</td>
+                <td><button onclick="editComment(this)">수정</button></td>
+                <td><button onclick="deleteComment(this)">삭제</button></td>
+            `;
+
+            // 댓글 입력 필드 초기화
+            commentInput.value = '';
+            authorInput.value = '';
+            
+        }
+
+        function editComment(button) {
+            const row = button.parentElement.parentElement;
+            const commentCell = row.querySelector('.comment-input');
+            const authorCell = row.querySelector('.author-input');
+
+            const newComment = prompt('댓글을 수정하세요:', commentCell.textContent);
+            const newAuthor = prompt('작성자를 수정하세요:', authorCell.textContent);
+
+            if (newComment && newAuthor) {
+                commentCell.textContent = newComment;
+                authorCell.textContent = newAuthor;
+            }
+        }
+
+        function deleteComment(button) {
+            const row = button.parentElement.parentElement;
+            row.remove();
+        }
+
+        document.getElementById('uphoto').onchange = function() {
+            const fileName = this.files[0].name;
+            document.getElementById('file-name').textContent = fileName;
+        }
+    </script>
+</body>
+</html>

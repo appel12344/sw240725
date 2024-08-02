@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<body>
+<h1>Ajax 실습</h1>
+<div id="demo">
+<h2>The XMLHttpRequest Object</h2>
+이 영역의 내용만 변경 됩니다.
+</div>
+<button type="button" onclick="loadDoc()">Change Content</button>
+
+<!-- 
+<script>
+function loadDoc() {
+  const xhttp = new XMLHttpRequest();
+  xhttp.onload = function() {
+    document.getElementById("demo").innerHTML =
+    this.responseText;
+  }
+  xhttp.open("GET", "data.txt", true);
+  xhttp.send();
+}
+</script> 
+-->
+<script>
+    // jQuery 라이브러리 ajax() 함수
+    // axios 라이브러리 이용 (CDN 설치)
+    // fetch 모듈 (웹브라우저 표준)
+    // XMLHttpRequest 객체 (웹브라우저 표준)
+    function loadDoc() {
+        const xhr = new XMLHttpRequest();
+        console.dir(xhr);
+
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState == 4 && xhr.status == 200) {
+                document.getElementById("demo").innerHTML = xhr.responseText;
+            }
+            console.log("readystate :", xhr.readyState);
+            console.log("state :", xhr.status);
+        }
+
+        var method = "GET";
+        var url = "data.txt";
+        xhr.open(method, url, true);
+        xhr.send();
+    }
+</script>
+
+</body>
+</html>
