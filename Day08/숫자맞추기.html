@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Advanced JavaScript Loop Example</title>
+</head>
+<body>
+
+  <button type="button">da</button>
+  <script>
+    // 무작위 숫자 생성 함수
+    function getRandomNumber(min, max) {
+      return Math.floor(Math.random() * (max - min + 1)) + min;
+    }
+
+    // 1부터 100까지 무작위 숫자 생성
+    let randomNumber = getRandomNumber(1, 100)
+    console.log(randomNumber);
+
+    const button = document.createElement('button');
+    
+    
+    while (true) {
+      let input = prompt("숫자를 입력하세요");
+
+      if (input === null) {
+        console.log("게임을 종료합니다.");
+        break;
+      }
+
+      let num = Number(input);
+
+      if (isNaN(num)) {
+        console.log("유효한 숫자를 입력하세요.");
+        continue;
+      }
+
+      console.log("고른 숫자 = " + num);
+
+      if (randomNumber > num) {
+        console.log("너무 작습니다.");
+      } else if (randomNumber < num) {
+        console.log("너무 큽니다.");
+      } else {
+        console.log("맞췄네 ㅅㅅ");
+        break;
+      }
+    }
+  </script>
+
+
+
+</body>
+</html>
