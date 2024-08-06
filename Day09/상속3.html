@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+<script>
+    function Animal(name, sound) {
+        this.name = name;
+        this.sound = sound;
+    }
+
+    Animal.prototype.mkSound = function() {
+        console.log(`${this.name}이(가) ${this.sound} 소리를 내며 운다`);
+    }
+
+    // display 메서드 정의
+    Animal.prototype.display = function() {
+        console.log(this.name + "의 이름");
+        console.log(this.sound + "의 소리");
+    }
+
+    // Dog 클래스 정의
+    function Dog(name) {
+        Animal.call(this, name, '멍멍'); // Animal의 생성자 호출
+    }
+
+    Dog.prototype = Object.create(Animal.prototype); // 상속
+    Dog.prototype.constructor = Dog; // 생성자 복원
+
+    // Cat 클래스 정의
+    function Cat(name) {
+        Animal.call(this, name, '야옹'); // Animal의 생성자 호출
+    }
+
+    Cat.prototype = Object.create(Animal.prototype); // 상속
+    Cat.prototype.constructor = Cat; // 생성자 복원
+
+    // 인스턴스 생성
+    const dog1 = new Dog("바둑이");
+    const cat1 = new Cat("나비");
+
+    // 메서드 호출
+    dog1.mkSound(); // 바둑이가 멍멍 소리를 내며 운다
+    dog1.display(); // 바둑이의 이름, 멍멍의 소리
+
+    cat1.mkSound(); // 나비가 야옹 소리를 내며 운다
+    cat1.display(); // 나비의 이름, 야옹의 소리
+</script>
+
+</body>
+</html>
