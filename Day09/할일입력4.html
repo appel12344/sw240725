@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <style>
+        /* 완료된 할 일의 제목에 취소선을 긋는 CSS 클래스 */
         span.okTitle {
             text-decoration: line-through;
         }
@@ -13,77 +14,90 @@
 <body>
     <h1>Todo List</h1>
     <p>
-        할일: <input type="text" class="title">
-        <button id="saveBtn">SAVE</button>
+        할일: <input type="text" class="title"> <!-- 할 일 입력 필드 -->
+        <button id="saveBtn">SAVE</button> <!-- 저장 버튼 -->
     </p>
     <ul class="resultArea">
-    </ul>
+    </ul> <!-- 할 일 목록을 표시할 영역 -->
 
     <script>
+        // 요소 선택
         var saveBtn = document.querySelector("#saveBtn");
         var title = document.querySelector(".title");
 
-        // 할 일 삭제 기능이 가능하도록 Array를 활용 한다.
-        var todoList = [
-            {no:101, title:"hello", done:false},
-            {no:102, title:"hello2", done:true},
-            {no:103, title:"hello3", done:true},
-            {no:104, title:"hello4", done:false}
-        ];
+        // 할 일 목록을 저장할 배열
+        var todoList = [];
+        // 할 일의 고유 번호를 위한 변수
         var todoSeq = 105;
+
+        // 할 일 목록을 그리는 함수
         function drawList() {
             var listArea = document.querySelector(".resultArea");
+            // 기존 목록 초기화
             listArea.innerHTML = "";
+            // 할 일 배열을 순회하며 목록 생성
             todoList.forEach(function(todo) {
                 var liTag = document.createElement("li");
                 var checkBox = document.createElement("input");
                 var delBtn = document.createElement("button");
                 var spanTag = document.createElement("span");
 
-                liTag.style.listStyle = "none";
-                checkBox.setAttribute("type", "checkbox");
-                spanTag.setAttribute("class", "");
-                checkBox.removeAttribute("checked");
-                if(todo.done) {
+                liTag.style.listStyle = "none"; // 목록 아이템 스타일 초기화
+                checkBox.setAttribute("type", "checkbox"); // 체크박스 생성
+                spanTag.setAttribute("class", ""); // span 태그 초기 클래스 설정
+                checkBox.removeAttribute("checked"); // 체크 속성 초기화
+
+                // 할 일이 완료되었으면 체크박스와 span 태그 수정
+                if (todo.done) {
                     checkBox.setAttribute("checked", "checked");
                     spanTag.setAttribute("class", "okTitle");
                 }
+
+                // 할 일 제목 설정
                 spanTag.innerHTML = todo.title + " ";
+                // 삭제 버튼 텍스트 설정
                 delBtn.innerText = "Delete";
+                // 삭제 버튼 클릭 이벤트 추가
                 delBtn.addEventListener('click', function(event) {
+                    // 해당 할 일을 배열에서 삭제
                     var idx = todoList.findIndex(function(t) {
                         return t.no === todo.no
                     });
-                    if(idx != -1) {
+                    if (idx != -1) {
                         todoList.splice(idx, 1);
-                        drawList();
+                        drawList(); // 목록 다시 그리기
                     }
                 });
 
+                // li 태그에 요소 추가
                 liTag.appendChild(checkBox);
                 liTag.appendChild(spanTag);
                 liTag.appendChild(delBtn);
+                // ul 태그에 li 태그 추가
                 listArea.appendChild(liTag);
             });
         }
-        drawList();
+        drawList(); // 초기 목록 그리기
 
-        // Array에 새 할 일 추가
+        // 배열에 새 할 일을 추가하는 함수
         function append() {
+            // 할 일 객체 추가
             todoList.push({
-                no:todoSeq++, title:title.value, done:false
+                no: todoSeq++, title: title.value, done: false
             });
-            drawList();
-            title.value = "";
-            title.focus();
+            drawList(); // 목록 다시 그리기
+            title.value = ""; // 입력 필드 초기화
+            title.focus(); // 입력 필드 포커스
         }
 
+        // 저장 버튼 클릭 시 append 함수 호출
         saveBtn.onclick = function() {
             append()
         }
 
+        // 입력 필드에서 Enter 키 입력 시 append 함수 호출
         title.onkeydown = function(e) {
-            if(e.keyCode === 13) {
+            if (e.keyCode === 13) {
                 append();
             }
         }
