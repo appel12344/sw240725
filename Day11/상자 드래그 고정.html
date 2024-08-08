@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>jsDragAndDrop.html</title>
+    <script>
+        // 지정된 CSS 값을 사용하여 새로운 박스를 만드는 함수
+        function MakeBox(cssValue) {
+            // 새로운 div 요소 생성
+            this.div = document.createElement('div');
+            // div 스타일 설정
+            this.div.style.position = "absolute";
+            this.div.style.border = "1px solid black";
+            this.div.style.left = cssValue.left;
+            this.div.style.top = cssValue.top;
+            this.div.style.width = cssValue.width;
+            this.div.style.height = cssValue.height;
+            // div를 문서의 body에 추가
+            document.body.appendChild(this.div);
+            // 전역 배열 boxArr가 없으면 생성
+            if (window.boxArr == null) {
+                window.boxArr = new Array();
+            }
+            // div를 전역 배열에 추가
+            boxArr.push(this.div);
+        };
+
+        // 지정된 값을 사용하여 새로운 버튼을 만드는 함수
+        function MakeBtn(values) {
+            // 새로운 버튼 요소 생성
+            this.btn = document.createElement('button');
+            this.btn.className = 'btn';
+            // 버튼을 문서의 body에 추가
+            document.body.appendChild(this.btn);
+            // 버튼 스타일 설정
+            this.btn.innerHTML = values.text;
+            this.btn.style.position = 'absolute';
+            this.btn.style.boxSizing = 'borderBox';
+            this.btn.style.backgroundColor = values.color;
+            this.btn.style.left = values.left;
+            this.btn.style.top = values.top;
+            this.btn.style.width = values.width;
+            this.btn.style.height = values.height;
+
+            // 드래그 기능을 위한 변수
+            var thisTarget = null;
+            window.zIndex = 1;
+
+            // 박스의 좌표를 저장하는 생성자 함수
+            function boxPoint(x1, y1, x2, y2) {
+                this.x1 = x1;
+                this.y1 = y1;
+                this.x2 = x2;
+                this.y2 = y2;
+            }
+
+            // 마우스를 누를 때 드래그 시작
+            this.btn.onmousedown = function(evt) {
+                // 모든 박스의 좌표를 저장할 배열
+                var boxPointArr = new Array();
+                for (var i = 0; i < boxArr.length; i++) {
+                    var x1 = boxArr[i].offsetLeft;
+                    var y1 = boxArr[i].offsetTop;
+                    var x2 = x1 + boxArr[i].offsetWidth;
+                    var y2 = y1 + boxArr[i].offsetHeight;
+                    // 각 박스의 좌표를 배열에 저장
+                    boxPointArr.push(new boxPoint(x1, y1, x2, y2));
+                }
+
+                // 드래그 중인 버튼을 thisTarget에 저장
+                thisTarget = this;
+                thisTarget.x = thisTarget.offsetLeft;
+                thisTarget.y = thisTarget.offsetTop;
+                // zIndex를 증가시켜 버튼을 앞에 표시
+                this.style.zIndex = window.zIndex;
+                window.zIndex += 1;
+                // 마우스 위치와 버튼 위치 간의 차이를 계산
+                thisTarget.xGap = event.clientX - event.target.offsetLeft;
+                thisTarget.yGap = event.clientY - event.target.offsetTop;
+
+                // 마우스를 움직일 때 버튼의 위치를 업데이트
+                document.onmousemove = function() {
+                    thisTarget.style.left = event.clientX - thisTarget.xGap + "px";
+                    thisTarget.style.top = event.clientY - thisTarget.yGap + "px";
+                };
+
+                // 마우스를 놓을 때 드래그 종료
+                document.onmouseup = function() {
+                    // 버튼의 중앙 좌표 계산
+                    var x1 = thisTarget.offsetLeft + thisTarget.offsetWidth / 2;
+                    var y1 = thisTarget.offsetTop + thisTarget.offsetHeight / 2;
+                    // 박스의 인덱스를 저장할 변수
+                    var idx = -1;
+                    for (var i = 0; i < boxPointArr.length; i++) {
+                        var p = boxPointArr[i];
+                        // 중앙 좌표가 박스 안에 있는지 확인
+                        var b1 = (x1 >= p.x1 && x1 <= p.x2) && (y1 >= p.y1 && y1 <= p.y2);
+                        if (b1) {
+                            idx = i;
+                        }
+                    }
+                    // 버튼이 박스 안에 있으면 버튼을 박스 안으로 이동
+                    if (idx != -1) {
+                        console.log(idx + "번째 box에 걸쳤습니다.");
+                        thisTarget.style.left = boxPointArr[idx].x1 + 1 + "px";
+                        thisTarget.style.top = boxPointArr[idx].y1 + 1 + "px";
+                    } else {
+                        console.log("box안에 없습니다.");
+                    }
+                    // 드래그 이벤트 종료
+                    document.onmousemove = null;
+                };
+            };
+        };
+
+        // 페이지 로드 시 호출되는 함수
+        window.onload = function() {
+            // 새로운 버튼 생성
+            new MakeBtn({
+                'text': 'HELLO',
+                'color': 'red',
+                'left': '200px',
+                'top': '200px',
+                'width': '100px',
+                'height': '100px'
+            });
+
+            new MakeBtn({
+                'text': 'HELLO',
+                'color': 'yellow',
+                'left': '200px',
+                'top': '200px',
+                'width': '100px',
+                'height': '100px'
+            });
+
+            // 새로운 박스들 생성
+            new MakeBox({
+                'left': '10px',
+                'top': '10px',
+                'width': '100px',
+                'height': '100px'
+            });
+            
+            new MakeBox({
+                'left': '120px',
+                'top': '10px',
+                'width': '100px',
+                'height': '100px'
+            });
+            new MakeBox({
+                'left': '230px',
+                'top': '10px',
+                'width': '100px',
+                'height': '100px'
+            });
+        };
+    </script>
+</head>
+<body>
+    
+</body>
+</html>
