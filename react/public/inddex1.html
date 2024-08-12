@@ -1,0 +1,58 @@
+// React 코드
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>React Example</title>
+    <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+</head>
+<body>
+    <h1>Hello React Project</h1>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        function Hello() {
+            return (
+                <>
+                    <h2>Welcome</h2>
+                    <h3>오신것을 환영합니다.</h3>
+                </>
+            );
+        }
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<Hello />);
+    </script>
+</body>
+</html>
+
+<!-- 리액트를 사용하지 않을 때는 이렇게 작성이 됩니다. -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vanilla JavaScript Example</title>
+</head>
+<body>
+    <h1>Hello JavaScript Project</h1>
+    <div id="root"></div>
+
+    <script>
+        // 새로운 요소 생성
+        const welcomeHeading = document.createElement('h2');
+        welcomeHeading.textContent = 'Welcome';
+
+        const greetingHeading = document.createElement('h3');
+        greetingHeading.textContent = '오신것을 환영합니다.';
+
+        // root 엘리먼트에 자식 요소 추가
+        const root = document.getElementById('root');
+        root.appendChild(welcomeHeading);
+        root.appendChild(greetingHeading);
+    </script>
+</body>
+</html>
